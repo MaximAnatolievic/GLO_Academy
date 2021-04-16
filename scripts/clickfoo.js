@@ -33,13 +33,13 @@ let budgetDay = budgetMonth/30;
 console.log(`Бюджет на день: ${Math.floor(budgetDay)}`);
 
 let incomelvl;
-if (budgetDay>=1200){
+if (budgetDay>1200){ //если строго больше 1200
     incomelvl="У вас высокий уровень дохода";
 }
-else if(budgetDay>=600){
+else if(budgetDay>=600){ //если меньше или равно 1200 но больше или равно 600
     incomelvl="У вас средний уровень дохода";
 }
-else if(budgetDay>=0){
+else if(budgetDay>=0){ //меньше 600, но больше или равно 0
     incomelvl="К сожалению у Вас уровень дохода ниже среднего";
 }
 else{
