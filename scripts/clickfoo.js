@@ -32,8 +32,8 @@ let myArr = addExpenses.toLowerCase().split(", ");
 
 let expenses = [];
 let amount = [];
-let numExpens = +prompt("укажите количество обязательных статей расходов");
-for(let i = 0; i<numExpens; i++){
+
+for(let i = 0; i<2; i++){
 expenses[i]= prompt(`Укажите обязательную статью расходов № ${i+1}`)
     do{
     amount[i] = +prompt(`Во сколько обойдётся статья ${expenses[i]}?`);
