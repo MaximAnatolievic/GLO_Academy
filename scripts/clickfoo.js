@@ -3,14 +3,8 @@ let isNumber = function (n){
     return !isNaN(parseFloat(n)) && isFinite(n)
 }
 
-let money;
-let income = "фриланс";
-let addExpenses = prompt("Перечислите возможные расходы за рассчитываемый период через запятую", 'Сад, огород, собака, кот');
-let mission = 5560000;
-//let period = 8;
-let deposit = confirm("Есть ли у Вас депозит в банке?");
-
-let start = function(){
+let money,
+    start = function(){
     do{
         money = prompt("Ваш месячный доход");
     }
@@ -18,79 +12,77 @@ let start = function(){
 }
 start();
 
-
-console.log(typeof money);
-console.log(typeof income);
-console.log(typeof deposit);
-/* Удалены в соответствии с заданием
-console.log(addExpenses.length);
-console.log(`Период равен ${period} месяцев`);
-console.log(`Цель заработать ${mission} рублей`);
-console.log(addExpenses);*/
-let myArr = addExpenses.toLowerCase().split(", ");
-
-
-let expenses = [];
-let amount = [];
-
-for(let i = 0; i<2; i++){
-expenses[i]= prompt(`Укажите обязательную статью расходов № ${i+1}`)
-    do{
-    amount[i] = +prompt(`Во сколько обойдётся статья ${expenses[i]}?`);
+let appData = {
+    income: {},
+    addIncome: [],
+    expenses: {},
+    addExpenses: [],
+    deposit: false,
+    mission: 5000000,
+    period: 10,
+    asking: function(){
+        let addExpenses = prompt("Перечислите возможные расходы за рассчитываемый период через запятую", 'Сад, огород, собака, кот');
+            appData.addExpenses = addExpenses.toLowerCase().split(", ");
+            appData.deposit = confirm("Есть ли у Вас депозит в банке?");
+            for(let i = 0; i<2; i++){            
+            appData.expenses[prompt(`Укажите обязательную статью расходов № ${i+1}`)] = +prompt(`Во сколько обойдётся статья?`);
+            }
     }
-    while(!isNumber(amount[i]))
-
 }
+appData.asking();
 
-function getExpensesMonth(){
-        let total = amount.reduce(function(sum, current) {
-        return sum + current;
-      }, 0);
-      return total;
-}
+appData.budget = money;
+appData.budgetDay = 0;
+appData.budgetMonth = 0;
+appData.expensesMonth = 0;
 
-console.log(getExpensesMonth());
-console.log(myArr);
+appData.getExpensesMonth = function getExpensesMonth(){
+        for (let item in appData.expenses){
+           appData.expensesMonth += appData.expenses[item];
+        };
+};
+appData.getExpensesMonth();
 
-let accumulatedMonth = function getAccumulatedMonth(){
-    return money - getExpensesMonth();
-}
+console.log(`Расходы за месяц: ${appData.expensesMonth}`);
 
-//console.log(`Бюджет на месяц: ${accumulatedMonth()}`);
 
-function getTargetMonth(){
-    let goal;
-    let target = Math.ceil(mission/accumulatedMonth());
-    if(target<0){
-    goal = 'цель не будет достигнута'
+appData.getBudget = function getAccumulatedMonth(){
+    appData.budgetMonth = appData.budget - appData.expensesMonth;
+    appData.budgetDay = appData.budgetMonth/30;
+};
+appData.getBudget();
+
+
+appData.getTargetMonth = function getTargetMonth(){
+    if(Math.ceil(appData.mission / appData.budgetMonth)<0){
+    return 'цель не будет достигнута'
     }
     else{
-        goal = `Цель будет достигнута за ${target} месяцев(-а)`;
+        appData.period = Math.ceil(appData.mission / appData.budgetMonth);
+        return `Цель будет достигнута за ${appData.period} месяцев(-а)`;
     }
-    return goal;
+};
 
+console.log(appData.getTargetMonth())
+
+appData.getStatusIncome = function getStatusIncome(){
+
+if (appData.budgetDay>=1200){ 
+   return "У вас высокий уровень дохода";
 }
-console.log(getTargetMonth())
-
-
-let budgetDay = accumulatedMonth()/30;
-console.log(`Бюджет на день: ${Math.floor(budgetDay)}`);
-
-function getStatusIncome(){
-let incomelvl;
-if (budgetDay>1200){ //если строго больше 1200
-    incomelvl="У вас высокий уровень дохода";
+else if(appData.budgetDay>=600 && appData.budgetDay<1200){ 
+    return "У вас средний уровень дохода";
 }
-else if(budgetDay>=600){ //если меньше или равно 1200 но больше или равно 600
-    incomelvl="У вас средний уровень дохода";
-}
-else if(budgetDay>=0){ //меньше 600, но больше или равно 0git status
-    incomelvl="К сожалению у Вас уровень дохода ниже среднего";
+else if(appData.budgetDay>=0 && appData.budgetDay<600){ 
+    return "К сожалению у Вас уровень дохода ниже среднего";
 }
 else{
-    incomelvl="что-то пошло не так";
+    return "что-то пошло не так";
 }
-return incomelvl;
-}
-console.log(getStatusIncome());
+};
+console.log(appData.getStatusIncome());
 
+console.log(`Наша программа включает в себя данные: \n`);
+for(let item in appData){
+    console.log(`${item}: ${appData[item]}`)
+};
