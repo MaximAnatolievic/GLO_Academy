@@ -1,4 +1,47 @@
 'use strict'
+//кнопка рассчитать
+const btnCount = document.getElementById('start'); 
+
+//Плюс "добавить доход"
+const btnPlus1 = document.getElementsByTagName('button')[0];   
+
+//Плюс "добавить расход"
+const btnPlus2 = document.getElementsByTagName('button')[1]; 
+
+// Чекбокс есть ли депозит
+const chkBox = document.querySelector('#deposit-check'); 
+
+//Возможный доход [0] - нпименование 1, [1] - наименование 2
+const incomeItem = document.querySelectorAll('.additional_income-item'); 
+
+//Результирующие значения правой части
+const resultsItems = document.getElementsByClassName('result-total'); 
+
+//input Месячный доход
+const MonthIncome = document.querySelector('.salary-amount'); 
+
+//input Дополнительный доход название
+const prbIncomeName = document.querySelector('.income-items>.income-title'); 
+
+//input Дополнительный доход сумма
+const prbIncomeSum = document.querySelector('.income-items>.income-amount');
+
+//Обязательные расходы наименование
+const expensesName = document.querySelector('.expenses-items>.expenses-title');
+
+//Обязательные расходы сумма
+const expensesSum = document.querySelector('.expenses-items>.expenses-amount');
+
+//Возможные расходы
+const prbExpenses = document.querySelector('.additional_expenses-item');
+
+//Цель
+const ourTarget = document.querySelector('.target-amount');
+
+//Период расчета
+const periodRange = document.querySelector('.period-select');
+
+
 let isNumber = function (n){
     return !isNaN(parseFloat(n)) && isFinite(n)
 }
