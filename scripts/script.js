@@ -175,12 +175,12 @@ let appData = {
         this.budgetDay = Math.round(this.budgetMonth/30);
     },
     getTargetMonth: function(){
-        if(Math.ceil(ourTarget.value / this.budgetMonth)<0){
+        if(Math.ceil(ourTarget.value / this.budgetMonth)<0&&Math.ceil(ourTarget.value / appData.budgetMonth)==Nan){
             resultsItems[6].value = 'Ошибка в данных';
         }
         else{
 
-            resultsItems[6].value = Math.ceil(ourTarget.value / this.budgetMonth);
+            resultsItems[6].value = Math.ceil(ourTarget.value / appData.budgetMonth);
         }
     },
     getStatusIncome: function(){
@@ -220,9 +220,7 @@ let appData = {
         resultsItems[4].value = this.addExpenses.join(', ');
         resultsItems[5].value = this.budgetMonth*periodRange.value;
 
-        periodRange.addEventListener('input', function(){
-            resultsItems[5].value = this.budgetMonth*periodRange.value;
-        });
+
         ;
 
     },
@@ -234,6 +232,8 @@ let appData = {
         };
         btnPlus1.disabled = 1;
         btnPlus2.disabled = 1;
+        resultsItems[5].disabled = 0;
+        periodRange.disabled = 0;
 
     },
     
@@ -304,9 +304,7 @@ let appData = {
    
         btnPlus1.addEventListener('click', this.addIncomeBlock);
         btnPlus2.addEventListener('click', this.addExpensesBlock);
-        periodRange.addEventListener('input', function(){
-        periodAmount.textContent = periodRange.value;
-        });
+
 
     },
 };
@@ -334,3 +332,8 @@ btnCount.addEventListener('click', function(){
 reset.addEventListener('click', function(){   
     hardBindReset();     
 });
+
+periodRange.addEventListener('input', function(){
+    periodAmount.textContent = periodRange.value;
+    resultsItems[5].value = appData.budgetMonth*periodRange.value;
+    });
