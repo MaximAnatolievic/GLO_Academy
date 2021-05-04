@@ -66,7 +66,7 @@ class AppData {
         this.percentDeposit = 0;
         this.moneyDeposit = 0;
         this.period = 10;
-        this.targetMoney = ourTarget.value;
+        this.targetMoney = 0;
         this.statusInsome = '';
     }
 
@@ -208,7 +208,8 @@ class AppData {
     };
 
     getTargetMonth(){
-        if(Math.ceil(this.targetMoney / this.budgetMonth)<0&&Math.ceil(this.targetMoney / this.budgetMonth)==Nan){
+        this.targetMoney = +ourTarget.value;
+        if(Math.ceil(this.targetMoney / this.budgetMonth)<0){
             resultsItems[6].value = 'Ошибка в данных';
         }
         else{
