@@ -54,7 +54,7 @@ reset.textContent = 'Сбросить';
 prbExpenses.placeholder = 'Наименование'; // поменял, чтоб обработчик "не вводить цифры накладывался и сюда тоже."
 
 const isNumber = function numbs(n) {
-  return !Number.isNaN(parseFloat(n)) && Number.isFinite(n);
+  return !isNaN(parseFloat(n)) && isFinite(n);
 };
 
 class AppData {
@@ -144,9 +144,10 @@ class AppData {
   getAddNames() {
     const addingInc = [];
     const adiingExp = prbExpenses.value.split(',');
-    for (let i = 0; i < incomeItem.length; i++) {
-      addingInc[i] = incomeItem[i].value;
-    }
+
+    incomeItem.forEach((item) => {
+      addingInc.push(item.value);
+    });
 
     const count = function (arr1, arr2) {
       for (let item of arr1) {
@@ -256,9 +257,10 @@ class AppData {
 
   lockInputs() {
     allInputs = document.querySelectorAll('input');
-    for (let i = 0; i < allInputs.length; i++) {
-      allInputs[i].disabled = 1;
-    }
+
+    allInputs.forEach((item) => {
+      item.disabled = 1;
+    });
     btnPlus1.disabled = 1;
     btnPlus2.disabled = 1;
     bankList.disabled = 1;
@@ -276,16 +278,15 @@ class AppData {
     this.expenses = {};
     this.addExpenses = [];
 
-    for (let i = 0; i < allInputs.length; i++) {
-      allInputs[i].disabled = 0;
-    }
+    allInputs.forEach((curitem) => {
+      curitem.value = '';
+      curitem.disabled = 0;
+    });
+
     btnPlus1.disabled = 0;
     btnPlus2.disabled = 0;
     bankList.disabled = 0;
 
-    for (let i = 0; i < allInputs.length; i++) {
-      allInputs[i].value = '';
-    }
     periodRange.value = 1;
     periodAmount.textContent = 1;
     incomeItems = document.querySelectorAll('.income-items');
