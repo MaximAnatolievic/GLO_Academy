@@ -323,7 +323,8 @@ class AppData {
     if (isNumber(this.value)) {
       alert('Введите наименование!');
       this.value = null;
-    }
+    } 
+    this.value = this.value.replace(/[^а-я \,]/ig, '');    
   }
 
   checkSums() {
