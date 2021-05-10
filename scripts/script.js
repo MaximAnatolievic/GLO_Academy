@@ -1,23 +1,42 @@
-const input = document.getElementById('input'),
-result = document.getElementById('result');
+'use strict';
 
-function debounce(f, t) {
-  return function (args) {
-    let previousCall = this.lastCall;
-    this.lastCall = Date.now();
-    if (previousCall && ((this.lastCall - previousCall) <= t)) {
-      clearTimeout(this.lastCallTimer);
+const img = document.getElementById('img'),
+res = document.getElementById('res'),
+anim = document.getElementById('anim');
+img.style.position = 'relative';
+let animateFly;
+
+img.style.left = '300px';
+const firstPositionLeft = parseInt(img.style.left);
+let count = firstPositionLeft;
+let animate = false;
+const fly = () =>{  
+    animateFly = requestAnimationFrame(fly);  
+
+    if(count<document.documentElement.clientWidth){
+      count +=10;
+      img.style.left = count + 'px';
+    } else {
+      count = 0;
     }
-    this.lastCallTimer = setTimeout(() => f(args), t);
-  }
 }
 
-const show = () => {
-  result.textContent = input.value;
+anim.addEventListener('click', ()=>{
+if(!animate){
+  animateFly = requestAnimationFrame(fly);
+  animate = true;
+  anim.textContent = 'Stop';
+}else if(animate){
+  cancelAnimationFrame(animateFly);
+  animate = false;
+  anim.textContent = 'Start';
 }
+});
 
-let debouncedShow = debounce(show, 300);
-
-
-input.addEventListener('input', debouncedShow);
-
+res.addEventListener('click', ()=>{
+    cancelAnimationFrame(animateFly);
+    animate = false;
+    anim.textContent = 'Start';
+    img.style.left = firstPositionLeft + 'px';
+    count = firstPositionLeft;
+  });
